@@ -65,10 +65,16 @@ public class NewGoodsFragment extends Fragment {
             public void onSuccess(NewGoodsBean[] result) {
                 srl.setRefreshing(false);
                 tvRefresh.setVisibility(View.GONE);
+                goodsAdapter.setMore(true);
                 L.e("result=" + result);
                 if (result != null && result.length > 0) {
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
                     goodsAdapter.initData(list);
+                    if (list.size() < I.PAGE_SIZE_DEFAULT) {
+                        goodsAdapter.setMore(false);
+                    }
+                } else {
+                    goodsAdapter.setMore(false);
                 }
             }
 

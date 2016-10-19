@@ -28,11 +28,21 @@ public class GoodsAdapter extends RecyclerView.Adapter {
 
     Context context;
     List<NewGoodsBean> beanList;
+    boolean isMore;
 
     public GoodsAdapter(Context context, List<NewGoodsBean> beanList) {
         this.context = context;
         this.beanList = new ArrayList<>();
         this.beanList.addAll(beanList);
+    }
+
+    public boolean isMore() {
+        return isMore;
+    }
+
+    public void setMore(boolean more) {
+        isMore = more;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -49,7 +59,8 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == I.TYPE_FOOTER) {
-
+            FooterViewHolder vh = (FooterViewHolder) holder;
+            vh.tvFooter.setText(getFootString());
         } else {
             GoodsViewHolder goodsViewHolder = (GoodsViewHolder) holder;
             NewGoodsBean goodsBean = beanList.get(position);
@@ -80,6 +91,10 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         }
         beanList.addAll(list);
         notifyDataSetChanged();
+    }
+
+    public int getFootString() {
+        return isMore ? R.string.load_more : R.string.no_more;
     }
 
     static class FooterViewHolder extends RecyclerView.ViewHolder {
