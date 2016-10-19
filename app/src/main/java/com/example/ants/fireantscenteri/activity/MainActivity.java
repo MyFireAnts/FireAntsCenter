@@ -1,7 +1,9 @@
-package com.example.ants.fireantscenteri;
+package com.example.ants.fireantscenteri.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.ants.fireantscenteri.R;
 
 public class MainActivity extends AppCompatActivity {
 
