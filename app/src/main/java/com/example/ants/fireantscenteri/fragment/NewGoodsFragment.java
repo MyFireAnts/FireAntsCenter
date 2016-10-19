@@ -18,6 +18,7 @@ import com.example.ants.fireantscenteri.adapter.GoodsAdapter;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
 import com.example.ants.fireantscenteri.net.NetDao;
 import com.example.ants.fireantscenteri.net.OkHttpUtils;
+import com.example.ants.fireantscenteri.utils.CommonUtils;
 import com.example.ants.fireantscenteri.utils.ConvertUtils;
 import com.example.ants.fireantscenteri.utils.L;
 
@@ -62,6 +63,8 @@ public class NewGoodsFragment extends Fragment {
         NetDao.downloadNewGoods(mainActivity, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
+                srl.setRefreshing(false);
+                tvRefresh.setVisibility(View.GONE);
                 L.e("result=" + result);
                 if (result != null && result.length > 0) {
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
@@ -71,6 +74,9 @@ public class NewGoodsFragment extends Fragment {
 
             @Override
             public void onError(String error) {
+                srl.setRefreshing(false);
+                tvRefresh.setVisibility(View.GONE);
+                CommonUtils.showShortToast(error);
                 L.e("error" + error);
             }
         });
