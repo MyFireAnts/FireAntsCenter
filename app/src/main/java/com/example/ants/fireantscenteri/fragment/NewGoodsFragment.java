@@ -21,6 +21,7 @@ import com.example.ants.fireantscenteri.net.OkHttpUtils;
 import com.example.ants.fireantscenteri.utils.CommonUtils;
 import com.example.ants.fireantscenteri.utils.ConvertUtils;
 import com.example.ants.fireantscenteri.utils.L;
+import com.example.ants.fireantscenteri.view.SpaceItemDecoration;
 
 import java.util.ArrayList;
 
@@ -149,5 +150,6 @@ public class NewGoodsFragment extends Fragment {
         rv.setLayoutManager(gridLayoutManager);
         rv.setHasFixedSize(true);
         rv.setAdapter(goodsAdapter);
+        rv.addItemDecoration(new SpaceItemDecoration(12));
     }
 }
