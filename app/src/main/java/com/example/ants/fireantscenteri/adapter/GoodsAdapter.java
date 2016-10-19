@@ -1,6 +1,7 @@
 package com.example.ants.fireantscenteri.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
+import com.example.ants.fireantscenteri.activity.GoodsDetailActivity;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
 import com.example.ants.fireantscenteri.utils.ImageLoader;
 
@@ -18,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -68,6 +71,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
             ImageLoader.downloadImg(context, goodsViewHolder.ivGoodsThumb, goodsBean.getGoodsThumb());
             goodsViewHolder.tvGoodsName.setText(goodsBean.getGoodsName());
             goodsViewHolder.tvGoodsPrice.setText(goodsBean.getCurrencyPrice());
+            goodsViewHolder.layoutGoods.setTag(goodsBean.getGoodsId());
         }
     }
 
@@ -112,7 +116,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    static class GoodsViewHolder extends RecyclerView.ViewHolder {
+    class GoodsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ivGoodsThumb)
         ImageView ivGoodsThumb;
         @BindView(R.id.tvGoodsName)
@@ -125,6 +129,13 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         GoodsViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+        }
+
+        @OnClick(R.id.layout_goods)
+        public void onGoodsItemClick() {
+            int goodsId = (int) layoutGoods.getTag();
+            context.startActivity(new Intent(context, GoodsDetailActivity.class)
+                    .putExtra(I.GoodsDetails.KEY_GOODS_ID, goodsId));
         }
     }
 }
