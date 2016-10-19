@@ -1,7 +1,6 @@
 package com.example.ants.fireantscenteri.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,9 @@ import android.widget.TextView;
 
 import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
-import com.example.ants.fireantscenteri.activity.GoodsDetailActivity;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
 import com.example.ants.fireantscenteri.utils.ImageLoader;
+import com.example.ants.fireantscenteri.utils.MFGT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,8 +133,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         @OnClick(R.id.layout_goods)
         public void onGoodsItemClick() {
             int goodsId = (int) layoutGoods.getTag();
-            context.startActivity(new Intent(context, GoodsDetailActivity.class)
-                    .putExtra(I.GoodsDetails.KEY_GOODS_ID, goodsId));
+            MFGT.gotoGoodsDetailsActivity(context, goodsId);
         }
     }
 }
