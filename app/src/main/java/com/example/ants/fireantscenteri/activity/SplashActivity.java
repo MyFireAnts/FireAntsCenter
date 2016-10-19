@@ -9,7 +9,7 @@ import com.example.ants.fireantscenteri.utils.MFGT;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private final long sleepTime=2000;
+    private final long sleepTime = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

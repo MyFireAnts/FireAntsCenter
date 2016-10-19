@@ -48,7 +48,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         if (getItemViewType(position) == I.TYPE_FOOTER) {
 
         } else {
-            GoodsViewHolder goodsViewHolder=(GoodsViewHolder)holder;
+            GoodsViewHolder goodsViewHolder = (GoodsViewHolder) holder;
             NewGoodsBean goodsBean = beanList.get(position);
             goodsViewHolder.tvGoodsName.setText(goodsBean.getGoodsName());
             goodsViewHolder.tvGoodsPrice.setText(goodsBean.getCurrencyPrice());
