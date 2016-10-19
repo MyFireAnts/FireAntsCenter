@@ -13,6 +13,7 @@ import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
 import com.example.ants.fireantscenteri.utils.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,7 +31,8 @@ public class GoodsAdapter extends RecyclerView.Adapter {
 
     public GoodsAdapter(Context context, List<NewGoodsBean> beanList) {
         this.context = context;
-        this.beanList = beanList;
+        this.beanList = new ArrayList<>();
+        this.beanList.addAll(beanList);
     }
 
     @Override
@@ -70,6 +72,14 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         } else {
             return I.TYPE_ITEM;
         }
+    }
+
+    public void initData(ArrayList<NewGoodsBean> list) {
+        if (beanList != null) {
+            beanList.clear();
+        }
+        beanList.addAll(list);
+        notifyDataSetChanged();
     }
 
     static class FooterViewHolder extends RecyclerView.ViewHolder {

@@ -18,6 +18,8 @@ import com.example.ants.fireantscenteri.adapter.GoodsAdapter;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
 import com.example.ants.fireantscenteri.net.NetDao;
 import com.example.ants.fireantscenteri.net.OkHttpUtils;
+import com.example.ants.fireantscenteri.utils.ConvertUtils;
+import com.example.ants.fireantscenteri.utils.L;
 
 import java.util.ArrayList;
 
@@ -60,12 +62,16 @@ public class NewGoodsFragment extends Fragment {
         NetDao.downloadNewGoods(mainActivity, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
-
+                L.e("result=" + result);
+                if (result != null && result.length > 0) {
+                    ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
+                    goodsAdapter.initData(list);
+                }
             }
 
             @Override
             public void onError(String error) {
-
+                L.e("error"+error);
             }
         });
     }
