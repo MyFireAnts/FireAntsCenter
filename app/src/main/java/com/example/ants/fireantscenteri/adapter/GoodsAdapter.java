@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
+import com.example.ants.fireantscenteri.utils.ImageLoader;
 
 import java.util.List;
 
@@ -50,6 +51,8 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         } else {
             GoodsViewHolder goodsViewHolder = (GoodsViewHolder) holder;
             NewGoodsBean goodsBean = beanList.get(position);
+            //设置显示商品图片
+            ImageLoader.downloadImg(context, goodsViewHolder.ivGoodsThumb, goodsBean.getGoodsThumb());
             goodsViewHolder.tvGoodsName.setText(goodsBean.getGoodsName());
             goodsViewHolder.tvGoodsPrice.setText(goodsBean.getCurrencyPrice());
         }
