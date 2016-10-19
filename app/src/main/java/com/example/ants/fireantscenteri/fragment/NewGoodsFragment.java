@@ -56,10 +56,55 @@ public class NewGoodsFragment extends Fragment {
         goodsAdapter = new GoodsAdapter(mainActivity, newGoodsBeanArrayList);
         initView();
         initData();
+        setListener();
         return layout;
     }
 
+    private void setListener() {
+        setPullUpListener();
+        setPullDownListener();
+    }
+
+    private void setPullDownListener() {
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                srl.setRefreshing(true);
+                tvRefresh.setVisibility(View.VISIBLE);
+                pageId = 1;
+                downloadNewGoods(I.ACTION_PULL_DOWN);
+            }
+        });
+    }
+
+    private void setPullUpListener() {
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                int lastPosition = gridLayoutManager.findLastVisibleItemPosition();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE
+                        && lastPosition == goodsAdapter.getItemCount() - 1
+                        && goodsAdapter.isMore()) {
+                    pageId++;
+                    downloadNewGoods(I.ACTION_PULL_UP);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int firstPosition = gridLayoutManager.findFirstVisibleItemPosition();
+                srl.setEnabled(firstPosition == 0);
+            }
+        });
+    }
+
     private void initData() {
+        downloadNewGoods(I.ACTION_DOWNLOAD);
+    }
+
+    private void downloadNewGoods(final int action) {
         NetDao.downloadNewGoods(mainActivity, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
             @Override
             public void onSuccess(NewGoodsBean[] result) {
@@ -69,7 +114,11 @@ public class NewGoodsFragment extends Fragment {
                 L.e("result=" + result);
                 if (result != null && result.length > 0) {
                     ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
-                    goodsAdapter.initData(list);
+                    if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
+                        goodsAdapter.initData(list);
+                    } else {
+                        goodsAdapter.addData(list);
+                    }
                     if (list.size() < I.PAGE_SIZE_DEFAULT) {
                         goodsAdapter.setMore(false);
                     }
@@ -82,8 +131,9 @@ public class NewGoodsFragment extends Fragment {
             public void onError(String error) {
                 srl.setRefreshing(false);
                 tvRefresh.setVisibility(View.GONE);
+                goodsAdapter.setMore(false);
                 CommonUtils.showShortToast(error);
-                L.e("error" + error);
+                L.e("error:" + error);
             }
         });
     }

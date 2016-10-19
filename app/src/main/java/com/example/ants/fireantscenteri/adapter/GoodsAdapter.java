@@ -93,6 +93,11 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
+    public void addData(ArrayList<NewGoodsBean> list) {
+        beanList.addAll(list);
+        notifyDataSetChanged();
+    }
+
     public int getFootString() {
         return isMore ? R.string.load_more : R.string.no_more;
     }
