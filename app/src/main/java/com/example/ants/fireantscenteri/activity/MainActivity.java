@@ -1,5 +1,6 @@
 package com.example.ants.fireantscenteri.activity;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.ants.fireantscenteri.R;
+import com.example.ants.fireantscenteri.fragment.NewGoodsFragment;
 import com.example.ants.fireantscenteri.utils.L;
 
 import butterknife.BindView;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     RadioButton layoutPersonalCenter;
 
     RadioButton[] buttons;
+    Fragment[] fragments;
+    NewGoodsFragment newGoodsFragment;
     int index;
 
     @Override
@@ -36,6 +40,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initView();
+        initFragment();
+    }
+
+    private void initFragment() {
+        fragments = new Fragment[5];
+        newGoodsFragment = new NewGoodsFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, newGoodsFragment)
+                .show(newGoodsFragment)
+                .commit();
     }
 
     private void initView() {
