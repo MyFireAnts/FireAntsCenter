@@ -2,7 +2,6 @@ package com.example.ants.fireantscenteri.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,61 +31,95 @@ import butterknife.ButterKnife;
  * Created by 15291 on 2016/10/19.
  */
 
-public class NewGoodsFragment extends Fragment {
-
+public class NewGoodsFragment extends BaseFragment {
     @BindView(R.id.tv_refresh)
-    TextView tvRefresh;
+    TextView mTvRefresh;
     @BindView(R.id.rv)
-    RecyclerView rv;
+    RecyclerView mRv;
     @BindView(R.id.srl)
-    SwipeRefreshLayout srl;
+    SwipeRefreshLayout mSrl;
 
-    MainActivity mainActivity;
-    GoodsAdapter goodsAdapter;
-    ArrayList<NewGoodsBean> newGoodsBeanArrayList;
+    MainActivity mContext;
+    GoodsAdapter mAdapter;
+    ArrayList<NewGoodsBean> mList;
     int pageId = 1;
-    GridLayoutManager gridLayoutManager;
+    GridLayoutManager glm;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        L.e("NewGoodsFragment.onCreateView");
         View layout = inflater.inflate(R.layout.fragment_newgoods, container, false);
         ButterKnife.bind(this, layout);
-        mainActivity = (MainActivity) getContext();
-        newGoodsBeanArrayList = new ArrayList<>();
-        goodsAdapter = new GoodsAdapter(mainActivity, newGoodsBeanArrayList);
-        initView();
-        initData();
-        setListener();
+        mContext = (MainActivity) getContext();
+        mList = new ArrayList<>();
+        mAdapter = new GoodsAdapter(mContext, mList);
+        super.onCreateView(inflater, container, savedInstanceState);
         return layout;
     }
 
-    private void setListener() {
+    @Override
+    protected void setListener() {
         setPullUpListener();
         setPullDownListener();
     }
 
     private void setPullDownListener() {
-        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSrl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                srl.setRefreshing(true);
-                tvRefresh.setVisibility(View.VISIBLE);
+                mSrl.setRefreshing(true);
+                mTvRefresh.setVisibility(View.VISIBLE);
                 pageId = 1;
                 downloadNewGoods(I.ACTION_PULL_DOWN);
             }
         });
     }
 
+    private void downloadNewGoods(final int action) {
+        NetDao.downloadNewGoods(mContext, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
+            @Override
+            public void onSuccess(NewGoodsBean[] result) {
+                mSrl.setRefreshing(false);
+                mTvRefresh.setVisibility(View.GONE);
+                mAdapter.setMore(true);
+                L.e("result=" + result);
+                if (result != null && result.length > 0) {
+                    ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
+                    if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
+                        mAdapter.initData(list);
+                    } else {
+                        mAdapter.addData(list);
+                    }
+                    if (list.size() < I.PAGE_SIZE_DEFAULT) {
+                        mAdapter.setMore(false);
+                    }
+                } else {
+                    mAdapter.setMore(false);
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                mSrl.setRefreshing(false);
+                mTvRefresh.setVisibility(View.GONE);
+                mAdapter.setMore(false);
+                CommonUtils.showShortToast(error);
+                L.e("error:" + error);
+            }
+        });
+    }
+
     private void setPullUpListener() {
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                int lastPosition = gridLayoutManager.findLastVisibleItemPosition();
+                int lastPosition = glm.findLastVisibleItemPosition();
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
-                        && lastPosition == goodsAdapter.getItemCount() - 1
-                        && goodsAdapter.isMore()) {
+                        && lastPosition == mAdapter.getItemCount() - 1
+                        && mAdapter.isMore()) {
                     pageId++;
                     downloadNewGoods(I.ACTION_PULL_UP);
                 }
@@ -95,61 +128,29 @@ public class NewGoodsFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int firstPosition = gridLayoutManager.findFirstVisibleItemPosition();
-                srl.setEnabled(firstPosition == 0);
+                int firstPosition = glm.findFirstVisibleItemPosition();
+                mSrl.setEnabled(firstPosition == 0);
             }
         });
     }
 
-    private void initData() {
+    @Override
+    protected void initData() {
         downloadNewGoods(I.ACTION_DOWNLOAD);
     }
 
-    private void downloadNewGoods(final int action) {
-        NetDao.downloadNewGoods(mainActivity, pageId, new OkHttpUtils.OnCompleteListener<NewGoodsBean[]>() {
-            @Override
-            public void onSuccess(NewGoodsBean[] result) {
-                srl.setRefreshing(false);
-                tvRefresh.setVisibility(View.GONE);
-                goodsAdapter.setMore(true);
-                L.e("result=" + result);
-                if (result != null && result.length > 0) {
-                    ArrayList<NewGoodsBean> list = ConvertUtils.array2List(result);
-                    if (action == I.ACTION_DOWNLOAD || action == I.ACTION_PULL_DOWN) {
-                        goodsAdapter.initData(list);
-                    } else {
-                        goodsAdapter.addData(list);
-                    }
-                    if (list.size() < I.PAGE_SIZE_DEFAULT) {
-                        goodsAdapter.setMore(false);
-                    }
-                } else {
-                    goodsAdapter.setMore(false);
-                }
-            }
-
-            @Override
-            public void onError(String error) {
-                srl.setRefreshing(false);
-                tvRefresh.setVisibility(View.GONE);
-                goodsAdapter.setMore(false);
-                CommonUtils.showShortToast(error);
-                L.e("error:" + error);
-            }
-        });
-    }
-
-    private void initView() {
-        srl.setColorSchemeColors(
+    @Override
+    protected void initView() {
+        mSrl.setColorSchemeColors(
                 getResources().getColor(R.color.google_blue),
                 getResources().getColor(R.color.google_green),
                 getResources().getColor(R.color.google_red),
                 getResources().getColor(R.color.google_yellow)
         );
-        gridLayoutManager = new GridLayoutManager(mainActivity, I.COLUM_NUM);
-        rv.setLayoutManager(gridLayoutManager);
-        rv.setHasFixedSize(true);
-        rv.setAdapter(goodsAdapter);
-        rv.addItemDecoration(new SpaceItemDecoration(12));
+        glm = new GridLayoutManager(mContext, I.COLUM_NUM);
+        mRv.setLayoutManager(glm);
+        mRv.setHasFixedSize(true);
+        mRv.setAdapter(mAdapter);
+        mRv.addItemDecoration(new SpaceItemDecoration(12));
     }
 }
