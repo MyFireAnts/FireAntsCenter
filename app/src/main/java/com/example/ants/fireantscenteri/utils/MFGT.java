@@ -6,8 +6,10 @@ import android.content.Intent;
 
 import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
+import com.example.ants.fireantscenteri.activity.BoutiqueChildActivity;
 import com.example.ants.fireantscenteri.activity.GoodsDetailActivity;
 import com.example.ants.fireantscenteri.activity.MainActivity;
+import com.example.ants.fireantscenteri.bean.BoutiqueBean;
 
 
 public class MFGT {
@@ -26,15 +28,23 @@ public class MFGT {
         startActivity(context, intent);
     }
 
+    public static void gotoGoodsDetailsActivity(Context context, int goodsId) {
+        Intent intent = new Intent();
+        intent.setClass(context, GoodsDetailActivity.class);
+        intent.putExtra(I.GoodsDetails.KEY_GOODS_ID, goodsId);
+        startActivity(context, intent);
+    }
+
     public static void startActivity(Context context, Intent intent) {
         context.startActivity(intent);
         ((Activity) context).overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-    public static void gotoGoodsDetailsActivity(Context context, int goodsId) {
+
+    public static void gotoBoutiqueChildActivity(Context context, BoutiqueBean bean) {
         Intent intent = new Intent();
-        intent.setClass(context, GoodsDetailActivity.class);
-        intent.putExtra(I.GoodsDetails.KEY_GOODS_ID, goodsId);
+        intent.setClass(context, BoutiqueChildActivity.class);
+        intent.putExtra(I.Boutique.CAT_ID, bean);
         startActivity(context, intent);
     }
 
