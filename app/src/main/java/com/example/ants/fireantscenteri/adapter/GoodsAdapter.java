@@ -1,7 +1,8 @@
 package com.example.ants.fireantscenteri.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,18 +25,18 @@ import butterknife.OnClick;
 
 
 /**
- * Created by 15291 on 2016/10/19.
+ * Created by clawpo on 2016/10/17.
  */
 
-public class GoodsAdapter extends RecyclerView.Adapter {
-    Context context;
-    List<NewGoodsBean> list;
+public class GoodsAdapter extends Adapter {
+    Context mContext;
+    List<NewGoodsBean> mList;
     boolean isMore;
 
     public GoodsAdapter(Context context, List<NewGoodsBean> list) {
-        this.context = context;
-        this.list = new ArrayList<>();
-        this.list.addAll(list);
+        mContext = context;
+        mList = new ArrayList<>();
+        mList.addAll(list);
     }
 
     public boolean isMore() {
@@ -48,28 +49,28 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder holder = null;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ViewHolder holder = null;
         if (viewType == I.TYPE_FOOTER) {
-            holder = new FooterViewHolder(View.inflate(context, R.layout.item_footer, null));
+            holder = new FooterViewHolder(View.inflate(mContext, R.layout.item_footer, null));
         } else {
-            holder = new GoodsViewHolder(View.inflate(context, R.layout.item_goods, null));
+            holder = new GoodsViewHolder(View.inflate(mContext, R.layout.item_goods, null));
         }
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         if (getItemViewType(position) == I.TYPE_FOOTER) {
             FooterViewHolder vh = (FooterViewHolder) holder;
             vh.mTvFooter.setText(getFootString());
         } else {
             GoodsViewHolder vh = (GoodsViewHolder) holder;
-            NewGoodsBean goods = list.get(position);
-            ImageLoader.downloadImg(context, vh.ivGoodsThumb, goods.getGoodsThumb());
-            vh.tvGoodsName.setText(goods.getGoodsName());
-            vh.tvGoodsPrice.setText(goods.getCurrencyPrice());
-            vh.layoutGoods.setTag(goods.getGoodsId());
+            NewGoodsBean goods = mList.get(position);
+            ImageLoader.downloadImg(mContext, vh.mIvGoodsThumb, goods.getGoodsThumb());
+            vh.mTvGoodsName.setText(goods.getGoodsName());
+            vh.mTvGoodsPrice.setText(goods.getCurrencyPrice());
+            vh.mLayoutGoods.setTag(goods.getGoodsId());
         }
     }
 
@@ -79,7 +80,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return list != null ? list.size() + 1 : 1;
+        return mList != null ? mList.size() + 1 : 1;
     }
 
     @Override
@@ -91,27 +92,27 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     }
 
     public void initData(ArrayList<NewGoodsBean> list) {
-        if (list != null) {
-            list.clear();
+        if (mList != null) {
+            mList.clear();
         }
-        list.addAll(list);
+        mList.addAll(list);
         notifyDataSetChanged();
     }
 
     public void addData(ArrayList<NewGoodsBean> list) {
-        list.addAll(list);
+        mList.addAll(list);
         notifyDataSetChanged();
     }
 
-    class GoodsViewHolder extends RecyclerView.ViewHolder {
+    class GoodsViewHolder extends ViewHolder {
         @BindView(R.id.ivGoodsThumb)
-        ImageView ivGoodsThumb;
+        ImageView mIvGoodsThumb;
         @BindView(R.id.tvGoodsName)
-        TextView tvGoodsName;
+        TextView mTvGoodsName;
         @BindView(R.id.tvGoodsPrice)
-        TextView tvGoodsPrice;
+        TextView mTvGoodsPrice;
         @BindView(R.id.layout_goods)
-        LinearLayout layoutGoods;
+        LinearLayout mLayoutGoods;
 
         GoodsViewHolder(View view) {
             super(view);
@@ -120,8 +121,9 @@ public class GoodsAdapter extends RecyclerView.Adapter {
 
         @OnClick(R.id.layout_goods)
         public void onGoodsItemClick() {
-            int goodsId = (int) layoutGoods.getTag();
-            MFGT.gotoGoodsDetailsActivity(context, goodsId);
+            int goodsId = (int) mLayoutGoods.getTag();
+            MFGT.gotoGoodsDetailsActivity(mContext, goodsId);
         }
     }
+
 }

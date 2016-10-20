@@ -10,10 +10,6 @@ import android.view.ViewGroup;
 import com.example.ants.fireantscenteri.utils.L;
 
 
-/**
- * Created by 15291 on 2016/10/20.
- */
-
 public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override

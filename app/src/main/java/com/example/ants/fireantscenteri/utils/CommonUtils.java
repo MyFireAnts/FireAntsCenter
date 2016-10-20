@@ -4,7 +4,6 @@ import android.widget.Toast;
 
 import com.example.ants.fireantscenteri.FuLiCenterApplication;
 
-
 public class CommonUtils {
     public static void showLongToast(String msg) {
         Toast.makeText(FuLiCenterApplication.getInstance(), msg, Toast.LENGTH_LONG).show();

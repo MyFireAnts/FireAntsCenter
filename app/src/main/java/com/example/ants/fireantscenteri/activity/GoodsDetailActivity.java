@@ -21,7 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
 public class GoodsDetailActivity extends BaseActivity {
 
     @BindView(R.id.backClickArea)
@@ -121,4 +120,5 @@ public class GoodsDetailActivity extends BaseActivity {
     public void onBackClick() {
         MFGT.finish(this);
     }
+
 }

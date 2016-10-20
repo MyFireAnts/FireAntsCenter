@@ -27,9 +27,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by 15291 on 2016/10/19.
- */
 
 public class NewGoodsFragment extends BaseFragment {
     @BindView(R.id.tv_refresh)

@@ -1,6 +1,5 @@
 package com.example.ants.fireantscenteri;
 
-
 public interface I {
     String SERVER_ROOT = "http://101.251.196.90:8000/FuLiCenterServerV2.0/";
     /** 下拉刷新*/

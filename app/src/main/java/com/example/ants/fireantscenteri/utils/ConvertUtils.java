@@ -18,9 +18,9 @@ public class ConvertUtils {
         return arrayList;
     }
 
-    public static int px2dp(Context context, int px){
+    public static int px2dp(Context context, int px) {
         int density = (int) context.getResources().getDisplayMetrics().density;
-        return px/density;
+        return px / density;
     }
 
 }

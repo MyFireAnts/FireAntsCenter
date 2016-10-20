@@ -7,7 +7,6 @@ import com.example.ants.fireantscenteri.bean.BoutiqueBean;
 import com.example.ants.fireantscenteri.bean.GoodsDetailsBean;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
 
-
 /**
  * Created by clawpo on 2016/10/17.
  */
