@@ -1,13 +1,15 @@
 package com.example.ants.fireantscenteri.activity;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.ants.fireantscenteri.R;
+import com.example.ants.fireantscenteri.fragment.BoutiqueFragment;
 import com.example.ants.fireantscenteri.fragment.NewGoodsFragment;
 import com.example.ants.fireantscenteri.utils.L;
 
@@ -29,42 +31,50 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.layout_personal_center)
     RadioButton layoutPersonalCenter;
 
-    RadioButton[] buttons;
-    Fragment[] fragments;
-    NewGoodsFragment newGoodsFragment;
     int index;
+    int currentIndex;
+    RadioButton[] rbs;
+    Fragment[] mFragments;
+    NewGoodsFragment mNewGoodsFragment;
+    BoutiqueFragment mBoutiqueFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        L.i("MainActivity onCreate");
         initView();
         initFragment();
     }
 
     private void initFragment() {
-        fragments = new Fragment[5];
-        newGoodsFragment = new NewGoodsFragment();
+        mFragments = new Fragment[5];
+        mNewGoodsFragment = new NewGoodsFragment();
+        mBoutiqueFragment = new BoutiqueFragment();
+        mFragments[0] = mNewGoodsFragment;
+        mFragments[1] = mBoutiqueFragment;
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container, newGoodsFragment)
-                .show(newGoodsFragment)
+                .add(R.id.fragment_container, mNewGoodsFragment)
+                .add(R.id.fragment_container, mBoutiqueFragment)
+                .hide(mBoutiqueFragment)
+                .show(mNewGoodsFragment)
                 .commit();
     }
 
     private void initView() {
-        buttons = new RadioButton[5];
-        buttons[0] = layoutNewGood;
-        buttons[1] = layoutBoutique;
-        buttons[2] = layoutCategory;
-        buttons[3] = layoutCart;
-        buttons[4] = layoutPersonalCenter;
+        rbs = new RadioButton[5];
+        rbs[0] = layoutNewGood;
+        rbs[1] = layoutBoutique;
+        rbs[2] = layoutCategory;
+        rbs[3] = layoutCart;
+        rbs[4] = layoutPersonalCenter;
     }
 
-
-    public void onCheckedChange(View view) {
-        switch (view.getId()) {
+    public void onCheckedChange(View v) {
+        switch (v.getId()) {
             case R.id.layout_new_good:
                 index = 0;
                 break;
@@ -81,16 +91,29 @@ public class MainActivity extends AppCompatActivity {
                 index = 4;
                 break;
         }
+        setFragment();
+    }
+
+    private void setFragment() {
+        if (index != currentIndex) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.hide(mFragments[currentIndex]);
+            if (!mFragments[index].isAdded()) {
+                ft.add(R.id.fragment_container, mFragments[index]);
+            }
+            ft.show(mFragments[index]).commit();
+        }
         setRadioButtonStatus();
+        currentIndex = index;
     }
 
     private void setRadioButtonStatus() {
-        L.e("RadioButtonIndex= " + index);
-        for (int i = 0; i < buttons.length; i++) {
+        L.e("index=" + index);
+        for (int i = 0; i < rbs.length; i++) {
             if (i == index) {
-                buttons[i].setChecked(true);
+                rbs[i].setChecked(true);
             } else {
-                buttons[i].setChecked(false);
+                rbs[i].setChecked(false);
             }
         }
     }

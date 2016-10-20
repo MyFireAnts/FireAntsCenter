@@ -11,10 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.activity.MainActivity;
@@ -26,6 +22,11 @@ import com.example.ants.fireantscenteri.utils.CommonUtils;
 import com.example.ants.fireantscenteri.utils.ConvertUtils;
 import com.example.ants.fireantscenteri.utils.L;
 import com.example.ants.fireantscenteri.view.SpaceItemDecoration;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by 15291 on 2016/10/20.
@@ -49,6 +50,7 @@ public class BoutiqueFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_newgoods, container, false);
         ButterKnife.bind(this, layout);
         mContext = (MainActivity) getContext();
+        mList = new ArrayList<>();
         mAdapter = new BoutiqueAdapter(mContext, mList);
         initView();
         initData();
