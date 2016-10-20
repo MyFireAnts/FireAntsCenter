@@ -13,6 +13,7 @@ import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
 import com.example.ants.fireantscenteri.utils.ImageLoader;
 import com.example.ants.fireantscenteri.utils.MFGT;
+import com.example.ants.fireantscenteri.view.FooterViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +28,14 @@ import butterknife.OnClick;
  */
 
 public class GoodsAdapter extends RecyclerView.Adapter {
-
     Context context;
-    List<NewGoodsBean> beanList;
+    List<NewGoodsBean> list;
     boolean isMore;
 
-    public GoodsAdapter(Context context, List<NewGoodsBean> beanList) {
+    public GoodsAdapter(Context context, List<NewGoodsBean> list) {
         this.context = context;
-        this.beanList = new ArrayList<>();
-        this.beanList.addAll(beanList);
+        this.list = new ArrayList<>();
+        this.list.addAll(list);
     }
 
     public boolean isMore() {
@@ -62,57 +62,45 @@ public class GoodsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == I.TYPE_FOOTER) {
             FooterViewHolder vh = (FooterViewHolder) holder;
-            vh.tvFooter.setText(getFootString());
+            vh.mTvFooter.setText(getFootString());
         } else {
-            GoodsViewHolder goodsViewHolder = (GoodsViewHolder) holder;
-            NewGoodsBean goodsBean = beanList.get(position);
-            //设置显示商品图片
-            ImageLoader.downloadImg(context, goodsViewHolder.ivGoodsThumb, goodsBean.getGoodsThumb());
-            goodsViewHolder.tvGoodsName.setText(goodsBean.getGoodsName());
-            goodsViewHolder.tvGoodsPrice.setText(goodsBean.getCurrencyPrice());
-            goodsViewHolder.layoutGoods.setTag(goodsBean.getGoodsId());
+            GoodsViewHolder vh = (GoodsViewHolder) holder;
+            NewGoodsBean goods = list.get(position);
+            ImageLoader.downloadImg(context, vh.ivGoodsThumb, goods.getGoodsThumb());
+            vh.tvGoodsName.setText(goods.getGoodsName());
+            vh.tvGoodsPrice.setText(goods.getCurrencyPrice());
+            vh.layoutGoods.setTag(goods.getGoodsId());
         }
+    }
+
+    private int getFootString() {
+        return isMore ? R.string.load_more : R.string.no_more;
     }
 
     @Override
     public int getItemCount() {
-        return beanList != null ? beanList.size() + 1 : 1;
+        return list != null ? list.size() + 1 : 1;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == getItemCount() - 1) {
             return I.TYPE_FOOTER;
-        } else {
-            return I.TYPE_ITEM;
         }
+        return I.TYPE_ITEM;
     }
 
     public void initData(ArrayList<NewGoodsBean> list) {
-        if (beanList != null) {
-            beanList.clear();
+        if (list != null) {
+            list.clear();
         }
-        beanList.addAll(list);
+        list.addAll(list);
         notifyDataSetChanged();
     }
 
     public void addData(ArrayList<NewGoodsBean> list) {
-        beanList.addAll(list);
+        list.addAll(list);
         notifyDataSetChanged();
-    }
-
-    public int getFootString() {
-        return isMore ? R.string.load_more : R.string.no_more;
-    }
-
-    static class FooterViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tvFooter)
-        TextView tvFooter;
-
-        FooterViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
     }
 
     class GoodsViewHolder extends RecyclerView.ViewHolder {

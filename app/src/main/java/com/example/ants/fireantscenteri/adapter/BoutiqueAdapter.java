@@ -15,6 +15,7 @@ import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.bean.BoutiqueBean;
 import com.example.ants.fireantscenteri.utils.ImageLoader;
+import com.example.ants.fireantscenteri.view.FooterViewHolder;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class BoutiqueAdapter extends Adapter {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder holder = null;
         if (viewType == I.TYPE_FOOTER) {
-            holder = new GoodsAdapter.FooterViewHolder(LayoutInflater.from(mContext)
+            holder = new FooterViewHolder(LayoutInflater.from(mContext)
                     .inflate(R.layout.item_footer, parent, false));
         } else {
             holder = new BoutiqueViewHolder(LayoutInflater.from(mContext)
@@ -57,8 +58,8 @@ public class BoutiqueAdapter extends Adapter {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (holder instanceof GoodsAdapter.FooterViewHolder) {
-            ((GoodsAdapter.FooterViewHolder) holder).tvFooter.setText(getFooterString());
+        if (holder instanceof FooterViewHolder) {
+            ((FooterViewHolder) holder).mTvFooter.setText(getFooterString());
         }
         if (holder instanceof BoutiqueViewHolder) {
             BoutiqueBean boutiqueBean = mList.get(position);
