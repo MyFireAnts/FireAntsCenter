@@ -3,6 +3,7 @@ package com.example.ants.fireantscenteri.net;
 import android.content.Context;
 
 import com.example.ants.fireantscenteri.I;
+import com.example.ants.fireantscenteri.bean.BoutiqueBean;
 import com.example.ants.fireantscenteri.bean.GoodsDetailsBean;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
 
@@ -27,6 +28,13 @@ public class NetDao {
         utils.setRequestUrl(I.REQUEST_FIND_GOOD_DETAILS)
                 .addParam(I.GoodsDetails.KEY_GOODS_ID, String.valueOf(goodsId))
                 .targetClass(GoodsDetailsBean.class)
+                .execute(listener);
+    }
+
+    public static void downloadBuotique(Context context, OkHttpUtils.OnCompleteListener<BoutiqueBean[]> listener) {
+        OkHttpUtils utils = new OkHttpUtils(context);
+        utils.setRequestUrl(I.REQUEST_FIND_BOUTIQUES)
+                .targetClass(BoutiqueBean[].class)
                 .execute(listener);
     }
 }
