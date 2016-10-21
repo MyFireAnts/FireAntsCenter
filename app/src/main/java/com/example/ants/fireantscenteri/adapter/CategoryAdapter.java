@@ -12,6 +12,7 @@ import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.bean.CategoryChildBean;
 import com.example.ants.fireantscenteri.bean.CategoryGroupBean;
 import com.example.ants.fireantscenteri.utils.ImageLoader;
+import com.example.ants.fireantscenteri.utils.MFGT;
 
 import java.util.ArrayList;
 
@@ -103,10 +104,16 @@ public class CategoryAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (ChildViewHolder) view.getTag();
         }
-        CategoryChildBean child = getChild(groupPosition, childPosition);
+        final CategoryChildBean child = getChild(groupPosition, childPosition);
         if (child != null) {
             ImageLoader.downloadImg(mContext, holder.mIvCategoryChildThumb, child.getImageUrl());
             holder.mTvCategoryChildName.setText(child.getName());
+            holder.mLayoutCategoryChild.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MFGT.gotoCategoryChildActivity(mContext, child.getId());
+                }
+            });
         }
         return view;
     }

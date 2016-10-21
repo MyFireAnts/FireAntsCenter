@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.activity.BoutiqueChildActivity;
+import com.example.ants.fireantscenteri.activity.CategoryChildActivity;
 import com.example.ants.fireantscenteri.activity.GoodsDetailActivity;
 import com.example.ants.fireantscenteri.activity.MainActivity;
 import com.example.ants.fireantscenteri.bean.BoutiqueBean;
@@ -40,7 +41,6 @@ public class MFGT {
         ((Activity) context).overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-
     public static void gotoBoutiqueChildActivity(Context context, BoutiqueBean bean) {
         Intent intent = new Intent();
         intent.setClass(context, BoutiqueChildActivity.class);
@@ -48,4 +48,10 @@ public class MFGT {
         startActivity(context, intent);
     }
 
+    public static void gotoCategoryChildActivity(Context context, int catId) {
+        Intent intent = new Intent();
+        intent.setClass(context, CategoryChildActivity.class);
+        intent.putExtra(I.CategoryChild.CAT_ID, catId);
+        startActivity(context, intent);
+    }
 }
