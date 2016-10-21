@@ -6,18 +6,18 @@ import com.example.ants.fireantscenteri.FuLiCenterApplication;
 
 public class CommonUtils {
     public static void showLongToast(String msg) {
-        Toast.makeText(FuLiCenterApplication.getInstance(), msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(FuLiCenterApplication.application, msg, Toast.LENGTH_LONG).show();
     }
 
     public static void showShortToast(String msg) {
-        Toast.makeText(FuLiCenterApplication.getInstance(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(FuLiCenterApplication.application, msg, Toast.LENGTH_SHORT).show();
     }
 
     public static void showLongToast(int rId) {
-        showLongToast(FuLiCenterApplication.getInstance().getString(rId));
+        showLongToast(FuLiCenterApplication.application.getString(rId));
     }
 
     public static void showShortToast(int rId) {
-        showShortToast(FuLiCenterApplication.getInstance().getString(rId));
+        showShortToast(FuLiCenterApplication.application.getString(rId));
     }
 }
