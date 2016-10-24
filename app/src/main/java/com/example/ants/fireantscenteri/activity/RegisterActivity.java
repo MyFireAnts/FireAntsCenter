@@ -1,11 +1,13 @@
 package com.example.ants.fireantscenteri.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.bean.Result;
 import com.example.ants.fireantscenteri.net.NetDao;
@@ -20,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class RegisterActivity extends BaseActivity {
+
     private static final String TAG = RegisterActivity.class.getSimpleName();
 
     @BindView(R.id.username)
@@ -109,6 +112,7 @@ public class RegisterActivity extends BaseActivity {
                 } else {
                     if (result.isRetMsg()) {
                         CommonUtils.showLongToast(R.string.register_success);
+                        setResult(RESULT_OK, new Intent().putExtra(I.User.USER_NAME, username));
                         MFGT.finish(mContext);
                     } else {
                         CommonUtils.showLongToast(R.string.register_fail_exists);
