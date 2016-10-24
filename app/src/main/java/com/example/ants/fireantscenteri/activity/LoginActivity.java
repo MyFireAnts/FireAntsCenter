@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.example.ants.fireantscenteri.R;
+import com.example.ants.fireantscenteri.utils.MFGT;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,6 +50,7 @@ public class LoginActivity extends BaseActivity {
             case R.id.btn_login:
                 break;
             case R.id.btn_register:
+                MFGT.gotoRegister(this);
                 break;
         }
     }
