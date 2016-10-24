@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.adapter.GoodsAdapter;
+import com.example.ants.fireantscenteri.bean.CategoryChildBean;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
 import com.example.ants.fireantscenteri.net.NetDao;
 import com.example.ants.fireantscenteri.net.OkHttpUtils;
@@ -19,6 +20,7 @@ import com.example.ants.fireantscenteri.utils.CommonUtils;
 import com.example.ants.fireantscenteri.utils.ConvertUtils;
 import com.example.ants.fireantscenteri.utils.L;
 import com.example.ants.fireantscenteri.utils.MFGT;
+import com.example.ants.fireantscenteri.view.CatChildFilterButton;
 import com.example.ants.fireantscenteri.view.SpaceItemDecoration;
 
 import java.util.ArrayList;
@@ -49,6 +51,10 @@ public class CategoryChildActivity extends BaseActivity {
     boolean addTimeAsc = false;
     boolean priceAsc = false;
     int sortBy = I.SORT_BY_ADDTIME_DESC;
+    @BindView(R.id.btnCatChildFilter)
+    CatChildFilterButton mBtnCatChildFilter;
+    String groupName;
+    ArrayList<CategoryChildBean> mChildList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +67,8 @@ public class CategoryChildActivity extends BaseActivity {
         if (catId == 0) {
             finish();
         }
+        groupName = getIntent().getStringExtra(I.CategoryGroup.NAME);
+        mChildList = (ArrayList<CategoryChildBean>) getIntent().getSerializableExtra(I.CategoryChild.ID);
         super.onCreate(savedInstanceState);
     }
 
@@ -77,6 +85,7 @@ public class CategoryChildActivity extends BaseActivity {
         mRv.setHasFixedSize(true);
         mRv.setAdapter(mAdapter);
         mRv.addItemDecoration(new SpaceItemDecoration(12));
+        mBtnCatChildFilter.setText(groupName);
     }
 
     @Override
@@ -157,6 +166,7 @@ public class CategoryChildActivity extends BaseActivity {
     @Override
     protected void initData() {
         downloadCategoryGoods(I.ACTION_DOWNLOAD);
+        mBtnCatChildFilter.setOnCatFilterClickListener(groupName, mChildList);
     }
 
     @OnClick(R.id.backClickArea)
