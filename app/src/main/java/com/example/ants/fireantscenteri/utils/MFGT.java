@@ -11,6 +11,7 @@ import com.example.ants.fireantscenteri.activity.CategoryChildActivity;
 import com.example.ants.fireantscenteri.activity.GoodsDetailActivity;
 import com.example.ants.fireantscenteri.activity.LoginActivity;
 import com.example.ants.fireantscenteri.activity.MainActivity;
+import com.example.ants.fireantscenteri.activity.RegisterActivity;
 import com.example.ants.fireantscenteri.bean.BoutiqueBean;
 import com.example.ants.fireantscenteri.bean.CategoryChildBean;
 
@@ -65,5 +66,9 @@ public class MFGT {
 
     public static void gotoLogin(Activity context) {
         startActivity(context, LoginActivity.class);
+    }
+
+    public static void gotoRegister(Activity context) {
+        startActivity(context, RegisterActivity.class);
     }
 }
