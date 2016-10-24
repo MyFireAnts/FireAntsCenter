@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.ants.fireantscenteri.activity.CategoryChildActivity">
+    tools:context="cn.ucai.fulicenter.activity.CategoryChildActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:src="@drawable/back" />
         </LinearLayout>
 
-        <com.example.ants.fireantscenteri.view.CatChildFilterButton
+        <cn.ucai.fulicenter.view.CatChildFilterButton
             android:id="@+id/btnCatChildFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -5,5 +5,7 @@
     android:orientation="vertical">
 
     <include layout="@layout/common_head_title" />
-    <include layout="@layout/fragment_newgoods"/>
+
+    <include layout="@layout/fragment_newgoods" />
+
 </LinearLayout>

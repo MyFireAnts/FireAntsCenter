@@ -9,6 +9,7 @@ import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.activity.BoutiqueChildActivity;
 import com.example.ants.fireantscenteri.activity.CategoryChildActivity;
 import com.example.ants.fireantscenteri.activity.GoodsDetailActivity;
+import com.example.ants.fireantscenteri.activity.LoginActivity;
 import com.example.ants.fireantscenteri.activity.MainActivity;
 import com.example.ants.fireantscenteri.bean.BoutiqueBean;
 import com.example.ants.fireantscenteri.bean.CategoryChildBean;
@@ -62,4 +63,7 @@ public class MFGT {
         startActivity(context, intent);
     }
 
+    public static void gotoLogin(Activity context) {
+        startActivity(context, LoginActivity.class);
+    }
 }

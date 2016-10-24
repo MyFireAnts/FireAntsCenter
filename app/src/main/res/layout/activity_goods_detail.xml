@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/good_detail_bg"
-    tools:context="com.example.ants.fireantscenteri.activity.GoodsDetailActivity">
+    tools:context="cn.ucai.fulicenter.activity.GoodsDetailActivity">
 
     <RelativeLayout
         android:id="@+id/layout_title"
@@ -103,13 +103,13 @@
             android:layout_below="@+id/tv_good_price_current"
             android:layout_marginTop="50dp">
 
-            <com.example.ants.fireantscenteri.view.SlideAutoLoopView
+            <cn.ucai.fulicenter.view.SlideAutoLoopView
                 android:id="@+id/salv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/good_detail_bg_white" />
 
-            <com.example.ants.fireantscenteri.view.FlowIndicator
+            <cn.ucai.fulicenter.view.FlowIndicator
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
