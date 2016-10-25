@@ -18,7 +18,6 @@ import com.example.ants.fireantscenteri.bean.CategoryChildBean;
 import java.util.ArrayList;
 
 public class MFGT {
-
     public static void finish(Activity activity) {
         activity.finish();
         activity.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -65,7 +64,9 @@ public class MFGT {
     }
 
     public static void gotoLogin(Activity context) {
-        startActivity(context, LoginActivity.class);
+        Intent intent = new Intent();
+        intent.setClass(context, LoginActivity.class);
+        startActivityForResult(context, intent, I.REQUEST_CODE_LOGIN);
     }
 
     public static void gotoRegister(Activity context) {

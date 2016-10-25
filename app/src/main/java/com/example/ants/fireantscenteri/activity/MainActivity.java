@@ -1,5 +1,6 @@
 package com.example.ants.fireantscenteri.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.ants.fireantscenteri.FuLiCenterApplication;
+import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.fragment.BoutiqueFragment;
 import com.example.ants.fireantscenteri.fragment.CategoryFragment;
@@ -21,6 +23,7 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends BaseActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     @BindView(R.id.layout_new_good)
     RadioButton mLayoutNewGood;
@@ -144,5 +147,21 @@ public class MainActivity extends BaseActivity {
 
     public void onBackPressed() {
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        L.e(TAG, "onResume...");
+        setFragment();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        L.e(TAG, "onActivityResult,requestCode=" + requestCode);
+        if (requestCode == I.REQUEST_CODE_LOGIN && FuLiCenterApplication.getUser() != null) {
+            index = 4;
+        }
     }
 }

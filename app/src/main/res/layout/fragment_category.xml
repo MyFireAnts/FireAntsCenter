@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/list_background"
-        android:dividerHeight="8dp"></ExpandableListView>
+        android:dividerHeight="8dp">
 
+    </ExpandableListView>
 </LinearLayout>
