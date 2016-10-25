@@ -12,6 +12,7 @@ import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.fragment.BoutiqueFragment;
 import com.example.ants.fireantscenteri.fragment.CategoryFragment;
 import com.example.ants.fireantscenteri.fragment.NewGoodsFragment;
+import com.example.ants.fireantscenteri.fragment.PersonalCenterFragment;
 import com.example.ants.fireantscenteri.utils.L;
 import com.example.ants.fireantscenteri.utils.MFGT;
 
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActivity {
     NewGoodsFragment mNewGoodsFragment;
     BoutiqueFragment mBoutiqueFragment;
     CategoryFragment mCategoryFragment;
+    PersonalCenterFragment mPersonalCenterFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +57,11 @@ public class MainActivity extends BaseActivity {
         mNewGoodsFragment = new NewGoodsFragment();
         mBoutiqueFragment = new BoutiqueFragment();
         mCategoryFragment = new CategoryFragment();
+        mPersonalCenterFragment = new PersonalCenterFragment();
         mFragments[0] = mNewGoodsFragment;
         mFragments[1] = mBoutiqueFragment;
         mFragments[2] = mCategoryFragment;
+        mFragments[4] = mPersonalCenterFragment;
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, mNewGoodsFragment)
@@ -104,7 +108,7 @@ public class MainActivity extends BaseActivity {
                 index = 3;
                 break;
             case R.id.layout_personal_center:
-                if (FuLiCenterApplication.getUsername() == null) {
+                if (FuLiCenterApplication.getUser() == null) {
                     MFGT.gotoLogin(this);
                 } else {
                     index = 4;
