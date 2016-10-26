@@ -20,6 +20,7 @@ import com.example.ants.fireantscenteri.utils.L;
 import com.example.ants.fireantscenteri.utils.MFGT;
 import com.example.ants.fireantscenteri.utils.ResultUtils;
 import com.example.ants.fireantscenteri.utils.SharePrefrenceUtils;
+import com.example.ants.fireantscenteri.view.DisplayUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +52,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
+        DisplayUtils.initBackWithTitle(mContext, getResources().getString(R.string.login));
     }
 
     @Override
