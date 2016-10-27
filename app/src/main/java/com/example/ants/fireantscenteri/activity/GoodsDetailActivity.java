@@ -134,6 +134,48 @@ public class GoodsDetailActivity extends BaseActivity {
         MFGT.finish(this);
     }
 
+    @OnClick(R.id.iv_good_collect)
+    public void onCollectClick() {
+        User user = FuLiCenterApplication.getUser();
+        if (user == null) {
+            MFGT.gotoLogin(mContext);
+        } else {
+            if (isCollected) {
+                NetDao.deleteCollect(mContext, user.getMuserName(), goodsId, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if (result != null && result.isSuccess()) {
+                            isCollected = !isCollected;
+                            updateGoodsCollectStatus();
+                            CommonUtils.showLongToast(result.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+            } else {
+                NetDao.addCollect(mContext, user.getMuserName(), goodsId, new OkHttpUtils.OnCompleteListener<MessageBean>() {
+                    @Override
+                    public void onSuccess(MessageBean result) {
+                        if (result != null && result.isSuccess()) {
+                            isCollected = !isCollected;
+                            updateGoodsCollectStatus();
+                            CommonUtils.showLongToast(result.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+            }
+        }
+    }
+
     private void isCollected() {
         User user = FuLiCenterApplication.getUser();
         if (user != null) {
@@ -165,5 +207,4 @@ public class GoodsDetailActivity extends BaseActivity {
             mIvGoodCollect.setImageResource(R.mipmap.bg_collect_in);
         }
     }
-
 }
