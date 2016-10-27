@@ -1,5 +1,7 @@
 package com.example.ants.fireantscenteri.bean;
 
+import com.example.ants.fireantscenteri.I;
+
 /**
  * Created by 15291 on 2016/10/24.
  */
@@ -57,7 +59,7 @@ public class User {
     }
 
     public String getMavatarSuffix() {
-        return mavatarSuffix;
+        return mavatarSuffix != null ? mavatarSuffix : I.AVATAR_SUFFIX_JPG;
     }
 
     public void setMavatarSuffix(String mavatarSuffix) {
