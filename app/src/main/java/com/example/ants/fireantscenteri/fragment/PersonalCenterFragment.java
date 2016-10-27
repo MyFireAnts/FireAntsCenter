@@ -13,10 +13,15 @@ import android.widget.TextView;
 import com.example.ants.fireantscenteri.FuLiCenterApplication;
 import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.activity.MainActivity;
+import com.example.ants.fireantscenteri.bean.Result;
 import com.example.ants.fireantscenteri.bean.User;
+import com.example.ants.fireantscenteri.dao.UserDao;
+import com.example.ants.fireantscenteri.net.NetDao;
+import com.example.ants.fireantscenteri.net.OkHttpUtils;
 import com.example.ants.fireantscenteri.utils.ImageLoader;
 import com.example.ants.fireantscenteri.utils.L;
 import com.example.ants.fireantscenteri.utils.MFGT;
+import com.example.ants.fireantscenteri.utils.ResultUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,6 +86,7 @@ public class PersonalCenterFragment extends BaseFragment {
         if (user != null) {
             ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, mIvUserAvatar);
             mTvUserName.setText(user.getMuserNick());
+            syncUserInfo();
         }
     }
 
@@ -109,5 +115,32 @@ public class PersonalCenterFragment extends BaseFragment {
         SimpleAdapter adapter = new SimpleAdapter(mContext, data, R.layout.simple_adapter,
                 new String[]{"order"}, new int[]{R.id.iv_order});
         mCenterUserOrderLis.setAdapter(adapter);
+    }
+
+    private void syncUserInfo() {
+        NetDao.syncUserInfo(mContext, user.getMuserName(), new OkHttpUtils.OnCompleteListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Result result = ResultUtils.getResultFromJson(s, User.class);
+                if (result != null) {
+                    User u = (User) result.getRetData();
+                    if (!user.equals(u)) {
+                        UserDao dao = new UserDao(mContext);
+                        boolean b = dao.saveUser(u);
+                        if (b) {
+                            FuLiCenterApplication.setUser(u);
+                            user = u;
+                            ImageLoader.setAvatar(ImageLoader.getAvatarUrl(user), mContext, mIvUserAvatar);
+                            mTvUserName.setText(user.getMuserNick());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
     }
 }
