@@ -8,6 +8,7 @@ import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.activity.BoutiqueChildActivity;
 import com.example.ants.fireantscenteri.activity.CategoryChildActivity;
+import com.example.ants.fireantscenteri.activity.CollectsActivity;
 import com.example.ants.fireantscenteri.activity.GoodsDetailActivity;
 import com.example.ants.fireantscenteri.activity.LoginActivity;
 import com.example.ants.fireantscenteri.activity.MainActivity;
@@ -89,6 +90,10 @@ public class MFGT {
 
     public static void gotoUpdateNick(Activity context) {
         startActivityForResult(context, new Intent(context, UpdateNickActivity.class), I.REQUEST_CODE_NICK);
+    }
+
+    public static void gotoCollects(Activity context) {
+        startActivity(context, CollectsActivity.class);
     }
 
 }

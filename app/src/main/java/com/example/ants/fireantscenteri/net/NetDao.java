@@ -6,6 +6,7 @@ import com.example.ants.fireantscenteri.I;
 import com.example.ants.fireantscenteri.bean.BoutiqueBean;
 import com.example.ants.fireantscenteri.bean.CategoryChildBean;
 import com.example.ants.fireantscenteri.bean.CategoryGroupBean;
+import com.example.ants.fireantscenteri.bean.CollectBean;
 import com.example.ants.fireantscenteri.bean.GoodsDetailsBean;
 import com.example.ants.fireantscenteri.bean.MessageBean;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
@@ -13,10 +14,6 @@ import com.example.ants.fireantscenteri.bean.Result;
 import com.example.ants.fireantscenteri.utils.MD5;
 
 import java.io.File;
-
-/**
- * Created by clawpo on 2016/10/17.
- */
 
 public class NetDao {
     public static void downloadNewGoods(Context context, int catId, int pageId, OkHttpUtils.OnCompleteListener<NewGoodsBean[]> listener) {
@@ -122,6 +119,16 @@ public class NetDao {
         utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
                 .addParam(I.Collect.USER_NAME, username)
                 .targetClass(MessageBean.class)
+                .execute(listener);
+    }
+
+    public static void downloadCollects(Context context, String username, int pageId, OkHttpUtils.OnCompleteListener<CollectBean[]> listener) {
+        OkHttpUtils<CollectBean[]> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECTS)
+                .addParam(I.Collect.USER_NAME, username)
+                .addParam(I.PAGE_ID, String.valueOf(pageId))
+                .addParam(I.PAGE_SIZE, String.valueOf(I.PAGE_SIZE_DEFAULT))
+                .targetClass(CollectBean[].class)
                 .execute(listener);
     }
 }
