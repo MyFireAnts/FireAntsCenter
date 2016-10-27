@@ -12,6 +12,7 @@ import com.example.ants.fireantscenteri.activity.GoodsDetailActivity;
 import com.example.ants.fireantscenteri.activity.LoginActivity;
 import com.example.ants.fireantscenteri.activity.MainActivity;
 import com.example.ants.fireantscenteri.activity.RegisterActivity;
+import com.example.ants.fireantscenteri.activity.UpdateNickActivity;
 import com.example.ants.fireantscenteri.activity.UserProfileActivity;
 import com.example.ants.fireantscenteri.bean.BoutiqueBean;
 import com.example.ants.fireantscenteri.bean.CategoryChildBean;
@@ -84,6 +85,10 @@ public class MFGT {
 
     public static void gotoSettings(Activity context) {
         startActivity(context, UserProfileActivity.class);
+    }
+
+    public static void gotoUpdateNick(Activity context) {
+        startActivityForResult(context, new Intent(context, UpdateNickActivity.class), I.REQUEST_CODE_NICK);
     }
 
 }
