@@ -7,6 +7,7 @@ import com.example.ants.fireantscenteri.bean.BoutiqueBean;
 import com.example.ants.fireantscenteri.bean.CategoryChildBean;
 import com.example.ants.fireantscenteri.bean.CategoryGroupBean;
 import com.example.ants.fireantscenteri.bean.GoodsDetailsBean;
+import com.example.ants.fireantscenteri.bean.MessageBean;
 import com.example.ants.fireantscenteri.bean.NewGoodsBean;
 import com.example.ants.fireantscenteri.bean.Result;
 import com.example.ants.fireantscenteri.utils.MD5;
@@ -113,6 +114,14 @@ public class NetDao {
         utils.setRequestUrl(I.REQUEST_FIND_USER)
                 .addParam(I.User.USER_NAME, username)
                 .targetClass(String.class)
+                .execute(listener);
+    }
+
+    public static void getCollectsCount(Context context, String username, OkHttpUtils.OnCompleteListener<MessageBean> listener) {
+        OkHttpUtils<MessageBean> utils = new OkHttpUtils<>(context);
+        utils.setRequestUrl(I.REQUEST_FIND_COLLECT_COUNT)
+                .addParam(I.Collect.USER_NAME, username)
+                .targetClass(MessageBean.class)
                 .execute(listener);
     }
 }
