@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.example.ants.fireantscenteri.R;
 import com.example.ants.fireantscenteri.bean.CartBean;
+import com.example.ants.fireantscenteri.bean.GoodsDetailsBean;
+import com.example.ants.fireantscenteri.utils.ImageLoader;
 
 import java.util.ArrayList;
 
@@ -42,11 +44,14 @@ public class CartAdapter extends Adapter<CartAdapter.CartViewHolder> {
     @Override
     public void onBindViewHolder(CartViewHolder holder, int position) {
         CartBean cartBean = mList.get(position);
-//        ImageLoader.downloadImg(mContext,holder.mIvBoutiqueImg,boutiqueBean.getImageurl());
-//        holder.mTvBoutiqueTitle.setText(boutiqueBean.getTitle());
-//        holder.mTvBoutiqueName.setText(boutiqueBean.getName());
-//        holder.mTvBoutiqueDescription.setText(boutiqueBean.getDescription());
-//        holder.mLayoutBoutiqueItem.setTag(boutiqueBean);
+        GoodsDetailsBean goods = cartBean.getGoods();
+        if (goods != null) {
+            ImageLoader.downloadImg(mContext, holder.mIvCartThumb, goods.getGoodsThumb());
+            holder.mTvCartGoodName.setText(goods.getGoodsName());
+            holder.mTvCartPrice.setText(goods.getCurrencyPrice());
+        }
+        holder.mTvCartCount.setText("(" + cartBean.getCount() + ")");
+        holder.mCbCartSelected.setChecked(false);
     }
 
     @Override
