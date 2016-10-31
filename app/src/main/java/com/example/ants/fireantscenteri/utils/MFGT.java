@@ -12,6 +12,7 @@ import com.example.ants.fireantscenteri.activity.CollectsActivity;
 import com.example.ants.fireantscenteri.activity.GoodsDetailActivity;
 import com.example.ants.fireantscenteri.activity.LoginActivity;
 import com.example.ants.fireantscenteri.activity.MainActivity;
+import com.example.ants.fireantscenteri.activity.OrderActivity;
 import com.example.ants.fireantscenteri.activity.RegisterActivity;
 import com.example.ants.fireantscenteri.activity.UpdateNickActivity;
 import com.example.ants.fireantscenteri.activity.UserProfileActivity;
@@ -72,6 +73,12 @@ public class MFGT {
         startActivityForResult(context, intent, I.REQUEST_CODE_LOGIN);
     }
 
+    public static void gotoLoginFromCart(Activity context) {
+        Intent intent = new Intent();
+        intent.setClass(context, LoginActivity.class);
+        startActivityForResult(context, intent, I.REQUEST_CODE_LOGIN_FROM_CART);
+    }
+
     public static void gotoRegister(Activity context) {
         Intent intent = new Intent();
         intent.setClass(context, RegisterActivity.class);
@@ -96,9 +103,9 @@ public class MFGT {
         startActivity(context, CollectsActivity.class);
     }
 
-    public static void gotoLoginFromCart(Activity context) {
-        Intent intent = new Intent();
-        intent.setClass(context, LoginActivity.class);
-        startActivityForResult(context, intent, I.REQUEST_CODE_LOGIN_FROM_CART);
+    public static void gotoBuy(Activity context, String cartIds) {
+        Intent intent = new Intent(context, OrderActivity.class).putExtra(I.Cart.ID, cartIds);
+        startActivity(context, intent);
     }
+
 }
