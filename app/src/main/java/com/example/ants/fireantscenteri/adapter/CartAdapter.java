@@ -24,6 +24,7 @@ import com.example.ants.fireantscenteri.bean.MessageBean;
 import com.example.ants.fireantscenteri.net.NetDao;
 import com.example.ants.fireantscenteri.net.OkHttpUtils;
 import com.example.ants.fireantscenteri.utils.ImageLoader;
+import com.example.ants.fireantscenteri.utils.MFGT;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,7 @@ public class CartAdapter extends Adapter<CartAdapter.CartViewHolder> {
             holder.mTvCartPrice.setText(goods.getCurrencyPrice());
         }
         holder.mTvCartCount.setText("(" + cartBean.getCount() + ")");
-        holder.mCbCartSelected.setChecked(false);
+        holder.mCbCartSelected.setChecked(cartBean.isChecked());
         holder.mCbCartSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -98,6 +99,13 @@ public class CartAdapter extends Adapter<CartAdapter.CartViewHolder> {
         CartViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+        }
+
+        @OnClick({R.id.iv_cart_thumb, R.id.tv_cart_good_name, R.id.tv_cart_price})
+        public void gotoDetail() {
+            final int position = (int) mIvCartAdd.getTag();
+            CartBean cart = mList.get(position);
+            MFGT.gotoGoodsDetailsActivity(mContext, cart.getGoodsId());
         }
 
         @OnClick(R.id.iv_cart_add)
